@@ -27,15 +27,34 @@ namespace Tugas_Akhir_PBO
         {
             string idCorrect = "101AD";
             string passwordCorrect = "adminpw123";
+            string id = isiID.Text.Trim();
+            string password = isiPassword.Text.Trim();
 
-            if (isiID.Text == idCorrect && isiPassword.Text == passwordCorrect)
+            try
             {
-                StartForm startForm = new StartForm(); 
-                this.Hide();
+                if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(password))
+                {
+                    MessageBox.Show("ID dan Password tidak boleh kosong.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (id == idCorrect && password == passwordCorrect)
+                {
+                    // Buka Dashboard  
+                    Laporan laporan = new Laporan();
+                    laporan.Show();
+
+                    // Sembunyikan LoginForm  
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("ID atau Password salah, silakan coba lagi.", "Login Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("ID atau Password salah, silakan coba lagi.", "Login Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -51,18 +70,5 @@ namespace Tugas_Akhir_PBO
         {
         }
     }
-
-    public partial class  StartForm : Form
-    {
-        public StartForm()
-        {
-            this.Text = "Login";
-            this.Size = new System.Drawing.Size(400, 300);
-            Label welcomeLabel = new Label();
-            welcomeLabel.Text = "Welcome to Medipop!";
-            welcomeLabel.AutoSize = true;
-            welcomeLabel.Location = new System.Drawing.Point(120, 120);
-            this.Controls.Add(welcomeLabel);
-        }
-    }
+   
 }
